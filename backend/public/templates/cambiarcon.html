@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recuperar Contraseña - Cocina Fácil</title>
+    <link rel="stylesheet" href="../css/cambiar.css">
+</head>
+<body>
+    <div class="form-container">
+        <h2>Recuperar Contraseña</h2>
+        <form id="forgotPasswordForm">
+            <div class="form-group">
+                <label for="email">Correo Electrónico:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <button type="submit">Enviar Link de Recuperación</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('forgotPasswordForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+
+            try {
+                const response = await fetch('http://localhost:3000/api/forgot-password', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email })
+                });
+
+                const data = await response.json();
+                if (response.ok) {
+                    alert('Se ha enviado un enlace de recuperación a tu correo');
+                } else {
+                    alert(data.error);
+                }
+            } catch (error) {
+                alert('Error al procesar la solicitud');
+            }
+        });
+    </script>
+</body>
+</html>
