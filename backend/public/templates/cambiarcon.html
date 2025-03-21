@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recuperar Contraseña - Cocina Fácil</title>
     <link rel="stylesheet" href="../css/cambiar.css">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
     <div class="form-container">
@@ -14,7 +15,8 @@
                 <label for="email">Correo Electrónico:</label>
                 <input type="email" id="email" name="email" required>
             </div>
-            <button type="submit">Enviar Link de Recuperación</button>
+            <div class="g-recaptcha" data-sitekey="6Ld4etoqAAAAAHp62jCa5f3JzZOBW7IjhOGuq2Dh"></div>
+            <button type="submit">Recuperar</button>
         </form>
     </div>
 
@@ -24,6 +26,8 @@
             const email = document.getElementById('email').value;
 
             try {
+                console.log(email)
+                console.log ("funtion")
                 const response = await fetch('http://localhost:3000/api/forgot-password', {
                     method: 'POST',
                     headers: {
@@ -33,11 +37,7 @@
                 });
 
                 const data = await response.json();
-                if (response.ok) {
-                    alert('Se ha enviado un enlace de recuperación a tu correo');
-                } else {
-                    alert(data.error);
-                }
+                console.log(data)
             } catch (error) {
                 alert('Error al procesar la solicitud');
             }

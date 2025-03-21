@@ -1,89 +1,164 @@
+/* Estilos base */
 :root {
-    --primary: #2d2d2d;
-    --secondary: #6b6b6b;
-    --accent: #4a90e2;
-    --background: #fafafa;
+    --primary: #2A2D34;
+    --accent: #FF6B6B;
+    --gradient: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+    --background: #f8f9fa;
     --surface: #ffffff;
-    --transition: all 0.2s ease-in-out;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 body {
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    line-height: 1.6;
-    background-color: var(--background);
-    color: var(--primary);
+    background: var(--background);
     margin: 0;
     min-height: 100vh;
     display: grid;
     place-items: center;
     padding: 1rem;
-}
-
-.container {
-    width: min(90%, 400px);
-    padding: 2.5rem 2rem;
-    background: var(--surface);
-    border-radius: 16px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
-    border: 1px solid rgba(0, 0, 0, 0.03);
-}
-
-h1 {
     color: var(--primary);
-    font-weight: 600;
-    font-size: 1.8rem;
-    margin: 0 0 1.5rem;
-    letter-spacing: -0.03em;
+}
+
+.form-container {
+    background: var(--surface);
+    padding: 2.5rem;
+    border-radius: 24px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+    width: min(90%, 440px);
+    position: relative;
+    overflow: hidden;
+    text-align: center; /* Centrado general */
+}
+
+.form-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: var(--gradient);
+}
+
+h2 {
+    font-size: 2rem;
+    margin: 0 0 2rem;
+    font-weight: 700;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    position: relative;
+    padding-bottom: 0.5rem;
+}
+
+h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: var(--gradient);
+    border-radius: 2px;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+    max-width: 300px; /* Ancho máximo para inputs */
+    margin-left: auto;
+    margin-right: auto; /* Centrado horizontal */
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--primary);
+    text-align: center; /* Centrado texto label */
+}
+
+input {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: var(--transition);
+    margin: 0 auto; /* Centrado input */
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.2);
+}
+
+.g-recaptcha {
+    margin: 1.5rem 0;
+    display: flex;
+    justify-content: center;
 }
 
 button {
-    background: var(--accent);
-    color: var(--surface);
+    max-width: 300px; /* Mismo ancho que los inputs */
+    margin: 0 auto; /* Centrado botón */
+    padding: 1rem;
+    background: var(--gradient);
+    color: white;
     border: none;
-    padding: 0.875rem 1.75rem;
-    font-size: 1rem;
-    font-weight: 500;
     border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
     cursor: pointer;
     transition: var(--transition);
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    box-shadow: 0 2px 8px rgba(74, 144, 226, 0.2);
+    position: relative;
+    overflow: hidden;
 }
 
 button:hover {
-    background: #357abd;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.3);
 }
 
-#qrContainer {
-    margin-top: 2rem;
-    padding-top: 2rem;
-    border-top: 1px solid rgba(0, 0, 0, 0.05);
+button::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.3),
+        transparent
+    );
+    transition: left 0.6s ease;
 }
 
-img {
-    width: min(100%, 220px);
-    margin: 1.5rem auto 0;
-    opacity: 0;
-    animation: fadeIn 0.4s ease-out forwards;
+button:hover::after {
+    left: 100%;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* Mejoras responsive */
+/* Responsive */
 @media (max-width: 480px) {
-    .container {
-        padding: 2rem 1.5rem;
-        border-radius: 12px;
+    .form-container {
+        padding: 1.5rem;
+        border-radius: 16px;
     }
     
-    h1 {
-        font-size: 1.5rem;
+    h2 {
+        font-size: 1.75rem;
+    }
+    
+    .form-group {
+        max-width: 100%; /* Ocupa todo el ancho en móviles */
+    }
+    
+    button {
+        width: 100%;
+        max-width: none;
     }
 }
