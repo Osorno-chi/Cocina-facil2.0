@@ -5,9 +5,12 @@ const connection = require('./config/database.config');
 const authRoutes = require('./routes/auth.routes');
 const morgan = require('morgan');
 const path = require('path');
+const fs = require("fs");
+const https = require("https");
 require('dotenv').config();
 
 const app = express();
+
 
 app.use(morgan('dev'))
 // Middleware para manejar JSON
@@ -32,10 +35,27 @@ app.get('/', (req, res) => {
 
 app.use('/api', authRoutes);
 
-// Iniciar servidor
-app.listen(config.port, () => {
-  console.log(`http://localhost:${config.port}`);
-});
+const isDev = config.ENVIROMENT === "dev"
+
+if (isDev){
+  try {
+    const options = {
+      key: fs.readFileSync("../../certs/localhost-key.pem"),
+      cert: fs.readFileSync("../../certs/localhost.pem"),
+    };
+    https.createServer(options, app).listen(config.port,()=>{
+      console.log(`https://localhost:${config.port}`);
+    })
+  } catch (error) {
+    console.error('No se pudo cargar el resultado ssl:',error)
+  }
+} else{
+    // Iniciar servidor
+    app.listen(config.port, () => {
+    console.log(`http://localhost:${config.port}`);
+  });
+}
+
 
 // ... existing imports ...
 const notificationRoutes = require('./routes/notification.routes');

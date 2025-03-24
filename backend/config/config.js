@@ -6,7 +6,8 @@ const config = Object.freeze({
     SECRET_KEY: process.env.SECRET_KEY,
     EMAIL_USER: process.env.EMAIL_USER,
     EMAIL_PASSWORD: process.env.EMAIL_PASSWORD,
-    FRONTEND_URL: process.env.FRONTEND_URL
+    FRONTEND_URL: process.env.FRONTEND_URL,
+    ENVIROMENT: process.env.ENVIROMENT
 });
 
 module.exports = config;
