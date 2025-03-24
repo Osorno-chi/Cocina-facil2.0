@@ -36,11 +36,13 @@ const loginUser = async (email, password) => {
   try {
     const user = await User.findOne({ email });
     if (!user) {
+      console.log('no usuario')
       throw new Error('Credenciales incorrectas');
     }
 
     const isMatch = await verifyPassword(password, user.password);
     if (!isMatch) {
+      console.log('contraseña invalida')
       throw new Error('Credenciales incorrectas');
     }
 
@@ -48,6 +50,7 @@ const loginUser = async (email, password) => {
 
     return { token, message: 'Inicio de sesión exitoso' };
   } catch (error) {
+    console.log('inicio de secion incorrecto')
     throw new Error(error.message);
   }
 };
