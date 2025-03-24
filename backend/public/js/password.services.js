@@ -32,7 +32,7 @@ const requestPasswordReset = async (email) => {
             expires: resetExpires
         });
 
-        const resetUrl = `${config.FRONTEND_URL}/reset-password?token=${resetToken}`;
+        const resetUrl = `http://localhost:3000/reset-password?token=${resetToken}`;
 
         await transporter.sendMail({
             from: 'eduardo.osocervantes@gmail.com',
