@@ -6,7 +6,7 @@ const verifyCaptcha = require('../libs/recapchap')
 
 const router = express.Router();
 
-router.post('/register', validateSchema(registerSchema), verifyCaptcha, register);
+router.post('/register', validateSchema(registerSchema), register);
 router.post('/login', validateSchema(loginSchema), login);
 router.post('/forgot-password', forgotPassword);
 

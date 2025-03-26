@@ -5,6 +5,7 @@ const  {hashPassword,verifyPassword} = require('../utils/security')
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 require('dotenv').config();
+const {encryptData, desencryptData} = require('../libs/crypt')
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -17,13 +18,14 @@ const transporter = nodemailer.createTransport({
 
 const registerUser = async (username, email, password) => {
   try {
-    const existingUser = await User.findOne({ email });
+    const encryptedEmail = encryptData(email);
+    const existingUser = await User.findOne({ email: encryptedEmail });
     if (existingUser) {
       throw new Error('El correo ya está registrado');
     }
 
-    const hashPwd = hashPassword(password)
-    const newUser = new User({ username, email, hashPwd });
+    const hashPwd = await hashPassword(password)
+    const newUser = new User({ username, email: encryptedEmail, password: hashPwd });
     await newUser.save();
 
     return { message: 'Usuario registrado exitosamente' };
@@ -34,7 +36,8 @@ const registerUser = async (username, email, password) => {
 
 const loginUser = async (email, password) => {
   try {
-    const user = await User.findOne({ email });
+    const encryptedEmail = encryptData(email);
+    const user = await User.findOne({ email: encryptedEmail });
     if (!user) {
       console.log('no usuario')
       throw new Error('Credenciales incorrectas');
@@ -57,11 +60,14 @@ const loginUser = async (email, password) => {
 
 const forgotPasswordService = async (email) => {
   try {
+    const encryptedEmail = encryptData(email);
     console.log ("service")
-      const user = await User.findOne({ email });
+      const user = await User.findOne({ encryptedEmail });
       if (!user) {
           throw new Error('No existe una cuenta con este correo electrónico');
       }
+
+      const decryptedEmail = desencryptData(user.email);
 
       // Usar el módulo crypto importado
       const resetToken = crypto.randomBytes(32).toString('hex');
@@ -75,7 +81,7 @@ const forgotPasswordService = async (email) => {
 
       await transporter.sendMail({
             from: 'eduardo.osocervantes@gmail.com',
-            to: email,
+            to: decryptedEmail,
             subject: 'Recuperación de Contraseña - Cocina Fácil',
             html: `
                 <h2>Recuperación de Contraseña</h2>
