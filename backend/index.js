@@ -8,6 +8,7 @@ const path = require('path');
 const fs = require("fs");
 const https = require("https");
 require('dotenv').config();
+const recipesRoutes = require('./routes/recipes.routes')
 
 const app = express();
 
@@ -34,6 +35,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api', authRoutes);
+app.use('/api', recipesRoutes);
 
 const isDev = config.ENVIROMENT === "dev"
 

@@ -5,7 +5,8 @@ const  {hashPassword,verifyPassword} = require('../utils/security')
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 require('dotenv').config();
-const {encryptData, desencryptData} = require('../libs/crypt')
+const {encryptData, desencryptData} = require('../libs/crypt');
+const createAccesToken = require('../libs/jwt')
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -49,7 +50,8 @@ const loginUser = async (email, password) => {
       throw new Error('Credenciales incorrectas');
     }
 
-    const token = jwt.sign({ userId: user._id }, config.SECRET_KEY, { expiresIn: '1h' });
+    const token = await createAccesToken ({id: user._id, username: user.username, email: user.email})
+  
 
     return { token, message: 'Inicio de sesión exitoso' };
   } catch (error) {

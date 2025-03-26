@@ -1,4 +1,5 @@
 require('dotenv').config();
+const path = require('path'); 
 
 const config = Object.freeze({
     DB_URL: process.env.DB_URL,
@@ -7,7 +8,8 @@ const config = Object.freeze({
     EMAIL_USER: process.env.EMAIL_USER,
     EMAIL_PASSWORD: process.env.EMAIL_PASSWORD,
     FRONTEND_URL: process.env.FRONTEND_URL,
-    ENVIROMENT: process.env.ENVIROMENT
+    ENVIROMENT: process.env.ENVIROMENT,
+    UPLOADS_DIR: path.join(__dirname, '../public/uploads'),
 });
 
 module.exports = config;

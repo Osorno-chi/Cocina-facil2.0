@@ -1,4 +1,4 @@
-const mongoose = requiere('mongoose')
+const mongoose = require('mongoose')
 
 const recipeModel = new mongoose.Schema({
     name: {type: String, required: true},
