@@ -7,21 +7,97 @@
     <title>Crear Nueva Receta</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        /* Agrega los estilos CSS del formulario que te proporcioné anteriormente */
-        /* ... (Usa el mismo CSS del formulario de registro mejorado) ... */
-        
-        .dynamic-list {
-            margin-bottom: 1rem;
+        :root {
+            --primary-color: #ff4757;
+            --secondary-color: #f27d00;
+            --accent-color: #fffb00;
+            --background-gradient: linear-gradient(135deg, #fff1e6 0%, #fde2e4 100%);
+            --text-dark: #2d3436;
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
         
-        .add-item-btn {
-            background: #28a745;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            margin-bottom: 1rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
+        body {
+            background: var(--background-gradient);
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            padding: 2rem;
+            color: var(--text-dark);
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transform: translateY(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .container:hover {
+            transform: translateY(-5px);
+        }
+        
+        h2 {
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+        
+        h2::after {
+            content: '🍴';
+            position: absolute;
+            right: 10%;
+            top: -10px;
+            opacity: 0.2;
+        }
+        
+        .input-group {
+            margin-bottom: 1.8rem;
+            position: relative;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.8rem;
+            font-weight: 500;
+            color: var(--text-dark);
+            font-size: 0.95rem;
+            padding-left: 0.5rem;
+            border-left: 3px solid var(--primary-color);
+        }
+        
+        input, textarea, select {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #dfe4ea;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(255, 255, 255, 0.8);
+        }
+        
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 4px 6px -1px rgba(255, 71, 87, 0.1), 
+                        0 2px 4px -1px rgba(255, 71, 87, 0.05);
+        }
+        
+        .dynamic-list {
+            background: rgba(255, 245, 245, 0.3);
+            padding: 1.5rem;
+            border-radius: 15px;
+            border: 2px dashed #ffe8e8;
+            margin-bottom: 1.5rem;
         }
         
         .ingredient-input-group,
@@ -29,24 +105,132 @@
             display: flex;
             gap: 1rem;
             margin-bottom: 1rem;
+            align-items: center;
+            background: white;
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .add-item-btn {
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: transform 0.2s ease;
+        }
+        
+        .add-item-btn:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
         }
         
         .remove-btn {
-            background: #dc3545;
+            background: var(--primary-color);
             color: white;
             border: none;
             border-radius: 50%;
-            width: 30px;
-            height: 30px;
+            width: 32px;
+            height: 32px;
             cursor: pointer;
             flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s ease;
+        }
+        
+        .remove-btn:hover {
+            transform: scale(1.1);
         }
         
         textarea {
-            resize: vertical;
-            min-height: 100px;
+            min-height: 120px;
+            padding: 1rem;
+            line-height: 1.6;
         }
-    </style>
+        
+        button[type="submit"] {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+            color: white;
+            border: none;
+            padding: 1.2rem;
+            width: 100%;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 1.5rem;
+        }
+        
+        button[type="submit"]:hover {
+            opacity: 0.95;
+            box-shadow: 0 8px 15px rgba(255, 71, 87, 0.3);
+        }
+        
+        /* Estilos para el input de archivo personalizado */
+        .input-file-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            background: white;
+        }
+        
+        .input-file-container input[type="file"] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            cursor: pointer;
+            height: 100%;
+            width: 100%;
+        }
+        
+        .custom-file-input {
+            display: block;
+            padding: 1.5rem;
+            border: 2px dashed #dfe4ea;
+            border-radius: 12px;
+            text-align: center;
+            color: #57606f;
+            transition: all 0.3s ease;
+        }
+        
+        .custom-file-input:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+                margin: 1rem;
+            }
+            
+            h2 {
+                font-size: 1.8rem;
+            }
+            
+            .ingredient-input-group,
+            .instruction-input-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .remove-btn {
+                align-self: flex-end;
+            }
+        }
+        </style>
 </head>
 <body>
     <div class="container">
@@ -112,7 +296,13 @@
             <!-- Subida de imagen -->
             <div class="input-group">
                 <label for="recipeImage">Imagen de la Receta:</label>
-                <input type="file" id="recipeImage" accept="image/*" required>
+                <div class="input-file-container">
+                    <input type="file" id="recipeImage" accept="image/*" required>
+                    <div class="custom-file-input">
+                        📸 Haz clic para subir una imagen
+                        <small>(Formatos: JPEG, PNG, WEBP - Máx. 5MB)</small>
+                    </div>
+                </div>
             </div>
 
             <button type="submit">🍴 Publicar Receta</button>
@@ -168,8 +358,11 @@
             formData.append('preparationTime', document.getElementById('preparationTime').value);
             formData.append('difficulty', document.getElementById('difficulty').value);
             formData.append('image', document.getElementById('recipeImage').files[0]);
-
+            for (const [key, value] of formData.entries()) {
+                console.log(key, value);
+            }           
             try {
+                console.log('try')
                 const response = await fetch('/api/recipes', {
                     method: 'POST',
                     headers: {
@@ -184,7 +377,7 @@
                 }
 
                 alert('¡Receta creada exitosamente! 🎉');
-                window.location.href = '/recipes';
+                window.location.href = '/index';
             } catch (error) {
                 alert(`Error: ${error.message}`);
                 console.error('Error:', error);

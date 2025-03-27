@@ -10,6 +10,7 @@ const config = Object.freeze({
     FRONTEND_URL: process.env.FRONTEND_URL,
     ENVIROMENT: process.env.ENVIROMENT,
     UPLOADS_DIR: path.join(__dirname, '../public/uploads'),
+    ENCRYPTION_KEY: process.env.ENCRYPTION_KEY
 });
 
 module.exports = config;

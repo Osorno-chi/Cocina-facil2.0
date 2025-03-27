@@ -1,23 +1,31 @@
-const recipe = require('../models/recipes.models')
+const Recipe = require('../models/recipes.models')
 
 const getAllRecipes = async () => {
     try {
         const recipes = await recipe.find()
         return recipes
-    }catch (error){
+    } catch (error){
         throw new Error(error.message);
     }
 }
 
-const createRecipe = async (name, description, ingredients, steps, category, author) => {
+const createRecipe = async (recipeData) => {
     try {
-        const newRecipe = new recipe({ name, description, ingredients, steps, category, author});
+        // Convertir JSON strings a objetos
+        const parsedData = {
+            ...recipeData,
+            ingredients: JSON.parse(recipeData.ingredients),
+            instructions: JSON.parse(recipeData.instructions),
+            preparationTime: parseInt(recipeData.preparationTime)
+        };
+
+        const newRecipe = new Recipe(parsedData);
         await newRecipe.save();
-        return {message: 'Receta creada exitosamente'};
+        return newRecipe;
     } catch (error) {
-        throw new Error(error.massage)
+        throw new Error(error.message); // Corregir typo "massage"
     }
-}
+};
 
 const updateRecipe = async (id, data) => {
     try {

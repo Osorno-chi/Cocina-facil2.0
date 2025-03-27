@@ -9,9 +9,20 @@ const fs = require("fs");
 const https = require("https");
 require('dotenv').config();
 const recipesRoutes = require('./routes/recipes.routes')
+const fileUpload = require('express-fileupload');
 
 const app = express();
 
+app.use(express.json());
+app.use(cors({origin:"*"}));
+app.use(fileUpload({
+    useTempFiles: false,
+    limits: { fileSize: 5 * 1024 * 1024 }
+}));
+app.use('/uploads', express.static('uploads'));
+
+// Middleware para subida de archivos (debe estar antes de las rutas)
+app.use('/api', recipesRoutes);
 
 app.use(morgan('dev'))
 // Middleware para manejar JSON

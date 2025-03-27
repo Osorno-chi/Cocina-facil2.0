@@ -7,11 +7,5 @@ const userModel = new mongoose.Schema({
   password: { type: String, required: true }
 });
 
-userModel.pre('save', async function(next) {
-  if (this.isModified('password')) {
-    this.password = await hashPassword(this.password);
-  }
-  next();
-});
 
 module.exports = mongoose.model('User', userModel);
