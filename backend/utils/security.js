@@ -24,7 +24,7 @@ const encryptEmail = (email) => {
     // Convertir la clave hexadecimal a Buffer
     const key = Buffer.from(config.ENCRYPTION_KEY, 'hex');
     
-    // Verificar longitud de la clave (32 bytes = 256 bits)
+    // Verificar longitud de la clave 
     if (key.length !== 32) {
         throw new Error(`Clave inválida: longitud ${key.length} bytes (debe ser 32 bytes)`);
     }
@@ -33,7 +33,7 @@ const encryptEmail = (email) => {
     const iv = crypto.createHash('sha256')
                      .update(email)
                      .digest()
-                     .slice(0, 16); // 16 bytes para AES-CBC
+                     .slice(0, 16); 
 
     // Crear cifrador
     const cipher = crypto.createCipheriv('aes-256-cbc', key, iv);

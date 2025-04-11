@@ -4,6 +4,7 @@ const RecipeController = require('../controllers/recipes.controllers');
 const verifyToken = require('../middlewares/verify.token.middleware');
 const permit = require('../middlewares/permits.middleware')
 
+
 router.post(
   '/recipes',
   verifyToken,
@@ -12,11 +13,14 @@ router.post(
 
 router.get('/recipes', RecipeController.getAllRecipes);
 
-router.get('/recipes/:id', RecipeController.getRecipe);
+router.get('/recipes/:id', RecipeController.getOneRecipe);
+
+router.get('/recipes/category/:id', RecipeController.getRecipesByCategory);
 
 router.patch(
   '/recipes/:id',
   verifyToken,
+  permit,
   RecipeController.updateRecipe
 );
 

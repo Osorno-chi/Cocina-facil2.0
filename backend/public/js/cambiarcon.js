@@ -2,9 +2,8 @@ const express = require('express');
 const router = express.Router();
 const { requestPasswordReset, resetPassword } = require('../services/password.services');
 
-// ... existing routes ...
 
-// Request password reset
+// Solicitar restablecimiento de contraseña
 router.post('/forgot-password', async (req, res) => {
     try {
         const { email } = req.body;
@@ -15,7 +14,7 @@ router.post('/forgot-password', async (req, res) => {
     }
 });
 
-// Reset password with token
+// Restablecer contraseña con token
 router.post('/reset-password', async (req, res) => {
     try {
         const { token, newPassword } = req.body;

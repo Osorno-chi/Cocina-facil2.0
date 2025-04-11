@@ -1,5 +1,3 @@
-
-// ====================== EVENTOS ======================
 // Login
 document.addEventListener('DOMContentLoaded', ()=>{
 
@@ -37,7 +35,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
         }
 
         localStorage.setItem('token', data.response.token);
-        window.location.href = '../'; // Redirección relativa
+        window.location.href = '../'; 
 
         } catch (error) {
             alert(error.message);

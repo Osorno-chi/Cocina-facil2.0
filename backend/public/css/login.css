@@ -181,7 +181,6 @@ button:hover::after {
     width: 100%;
 }
 
-/* Efecto de carga para el contenedor */
 @keyframes fadeIn {
     from {
         opacity: 0;

@@ -10,6 +10,7 @@ const https = require("https");
 require('dotenv').config();
 const recipesRoutes = require('./routes/recipes.routes')
 const fileUpload = require('express-fileupload');
+const categoryRoutes = require('./routes/category.routes')
 
 const app = express();
 
@@ -21,11 +22,12 @@ app.use(fileUpload({
 }));
 app.use('/uploads', express.static('uploads'));
 
-// Middleware para subida de archivos (debe estar antes de las rutas)
+
 app.use('/api', recipesRoutes);
+app.use('/api/categories', categoryRoutes);
+
 
 app.use(morgan('dev'))
-// Middleware para manejar JSON
 app.use(express.json());
 app.use(express.static('public'))
 
@@ -45,6 +47,10 @@ app.get('/', (req, res) => {
   res.sendFile(index);
 });
 
+app.get('/recipes/:id', (req, res)=>{
+  const details = path.resolve('public/templates', 'recipedetails.html')
+  res.sendFile(details);
+})
 app.use('/api', authRoutes);
 app.use('/api', recipesRoutes);
 
@@ -70,8 +76,8 @@ if (isDev){
 }
 
 
-// ... existing imports ...
+
 const notificationRoutes = require('./routes/notification.routes');
 
-// ... existing middleware ...
+
 app.use('/api/notifications', notificationRoutes);

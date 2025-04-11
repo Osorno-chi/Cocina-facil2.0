@@ -11,13 +11,13 @@ const verifyToken = (req, res, next) => {
     if (!header) {
         return res.status(401).json({ message: "Unauthorized" });
     }
-    jwt.verify(token, process.env.SECRET_KEY, (err, user) => {
+    jwt.verify(token, config.SECRET_KEY, (err, user) => {
         if (err) {
             return res.status(403).json({ message: "Invalid Token" });
         }
         req.user = user;
+        next();
     })
-    next();
 }
 
 module.exports= verifyToken;

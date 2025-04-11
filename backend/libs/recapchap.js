@@ -1,12 +1,12 @@
 const axios = require('axios');
 const { URLSearchParams } = require('url');
 
-// Importa tu configuración y errores personalizados
+// La configuración y errores personalizados
 const config = require('../config/config')
 
 const verifyCaptcha = async (req, res, next) => {
     try {
-        // Obtener el captcha del cuerpo de la solicitud
+        // Obtener el captcha 
         const { captcha } = req.body;
         
         if (!captcha) {

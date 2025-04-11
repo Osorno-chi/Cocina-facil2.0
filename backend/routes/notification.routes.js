@@ -3,7 +3,7 @@ const router = express.Router();
 const { sendRecipeNotification, sendNewsletterToSubscribers } = require('../services/email.services');
 const auth = require('../middlewares/validateSchema.middleware');
 
-// Send notification for new recipe
+
 router.post('/notify-recipe', auth, async (req, res) => {
     try {
         const { recipients, recipe } = req.body;
@@ -14,7 +14,7 @@ router.post('/notify-recipe', auth, async (req, res) => {
     }
 });
 
-// Send newsletter to subscribers
+
 router.post('/send-newsletter', auth, async (req, res) => {
     try {
         const { subscribers, content } = req.body;

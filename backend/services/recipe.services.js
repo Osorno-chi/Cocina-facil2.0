@@ -1,8 +1,17 @@
 const Recipe = require('../models/recipes.models')
 
+const getOneRecipe = async (id) =>{
+    try {
+        const recipe = await Recipe.findById(id)
+        return recipe
+    } catch (error) {
+        throw new Error(error.message);
+    }
+}
+
 const getAllRecipes = async () => {
     try {
-        const recipes = await recipe.find()
+        const recipes = await Recipe.find()
         return recipes
     } catch (error){
         throw new Error(error.message);
@@ -49,4 +58,17 @@ const deleteRecipe = async (id) => {
     }
 }
 
-module.exports = { getAllRecipes, createRecipe, updateRecipe, deleteRecipe};
+const getUserRecipes = async (userId) => {
+    return Recipe.find({ author: userId }).populate('category');
+  }
+
+const getRecipesByCategory = async (id) => {
+    try {
+        const recipes = await recipe.find({category:id})
+        return recipes
+    } catch (error){
+        throw new Error(error.message);
+    }
+}
+
+module.exports = { getAllRecipes, createRecipe, updateRecipe, deleteRecipe, getUserRecipes, getRecipesByCategory, getOneRecipe};

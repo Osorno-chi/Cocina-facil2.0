@@ -1,9 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Elementos del DOM (IDs actualizados)
     const registerForm = document.getElementById('registerForm');
-    const nombreInput = document.getElementById('nombre'); // Nuevo campo
-    const usernameInput = document.getElementById('usuario'); // ID corregido
-    const emailInput = document.getElementById('correo'); // ID corregido
+    const nombreInput = document.getElementById('nombre'); 
+    const usernameInput = document.getElementById('usuario'); 
+    const emailInput = document.getElementById('correo'); 
     const passwordInput = document.getElementById('password');
  
     // Validar elementos
@@ -42,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ 
-                    nombre, // Nuevo campo
+                    nombre, 
                     username, 
                     email, 
                     password,
@@ -56,11 +55,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error(data.error || "Error en el registro");
             }
 
-            alert("🎉 ¡Registro exitoso!");
+            alert("¡Registro exitoso!");
             window.location.href =  "../login";
 
         } catch (error) {
-            alert(`❌ Error: ${error.message}`);
+            alert(`Error: ${error.message}`);
             console.error(error)
             grecaptcha.reset();
 

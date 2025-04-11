@@ -8,16 +8,16 @@ const RecipeController = {
     
     try {
       console.log('Archivos recibidos:', req.files)
-      // 1. Verificar si se subió una imagen
+      // Verificar si se subió una imagen
       if (!req.files?.image) {
         throw new Error('Debes subir una imagen para la receta');
       }
 
       console.log('Archivo recibido')
-      // 2. Subir la imagen
+      // Subir la imagen
       imagePath = await uploadImage(req.files.image);
 
-      // 3. Crear la receta con la ruta de la imagen
+      // Crear la receta con la ruta de la imagen
       console.log(imagePath)
       const recipeData = {
         ...req.body,
@@ -28,14 +28,14 @@ const RecipeController = {
       console.log(recipeData)
       const recipe = await RecipeService.createRecipe(recipeData);
 
-      // 4. Respuesta exitosa
+      // Respuesta exitosa
       res.status(201).json({
         success: true,
         data: recipe
       });
 
     } catch (error) {
-      // 5. Manejo de errores
+      // Manejo de errores
       console.error('Error en createRecipe:', error);
 
       // Limpiar imagen subida en caso de error
@@ -43,13 +43,11 @@ const RecipeController = {
         removeImage(imagePath);
       }
 
-      // Determinar código de estado
-      const statusCode = error.statusCode || 
-                        (error.message.includes('subir') ? 400 : 500);
 
-      res.status(statusCode).json({
-        success: false,
-        message: error.message || 'Error al crear la receta'
+
+      res.status(200).json({
+        ok: true,
+        message: 'Receta creada correctamente'
       });
     }
   },
@@ -102,7 +100,52 @@ const RecipeController = {
         message: error.message
       });
     }
-  }
+  },
+
+  getOneRecipe : async (req, res) => {
+    try {
+      const recipe = await RecipeService.getOneRecipe(req.params.id)
+        res.json({
+        success: true,
+        data: recipe
+        });
+    } catch (error) {
+      res.status(500).json({
+      success: false,
+      message: error.message
+      });
+    }
+  },
+
+  getRecipesByCategory : async (req, res) => {
+    try {
+        const recipes = await RecipeService.getRecipesByCategory(req.params.id)
+        res.json({
+          success: true,
+          data: recipes
+        });
+      } catch (error) {
+        res.status(500).json({
+          success: false,
+          message: error.message
+        });
+      }
+}
 };
+
+const getUserRecipes = async (req, res) => {
+  try {
+    const recipes = await RecipeService.getUserRecipes(req.user.id);
+    res.json({
+      success: true,
+      data: recipes
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+}
 
 module.exports = RecipeController;

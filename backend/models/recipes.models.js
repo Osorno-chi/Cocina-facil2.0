@@ -9,7 +9,6 @@ const recipeSchema = new mongoose.Schema({
     }],
     instructions: [String],
     preparationTime: { type: Number, required: true },
-    difficulty: { type: String, required: true },
     image: { type: String, required: true },
     category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' },
     author: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }
